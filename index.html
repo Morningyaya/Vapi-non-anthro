@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assistant</title>
+</head>
+<body>
+    <h1>Welcome</h1>
+    <p>This is where your AI companion will appear.</p>
+    <!-- Embedding Vapi.ai Assistant -->
+    <script>
+        var vapiInstance = null;
+        const assistant = "ddc98ac2-4e76-40b7-94f6-4568d8574226"; // Substitute with your assistant ID
+        const apiKey = "ca4376a0-87d1-444e-ad3f-d056d3e30c1d"; // Substitute with your Public key from Vapi Dashboard.
+        const buttonConfig = {}; // Modify this as required
+
+        (function (d, t) {
+            var g = document.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+            g.src = "https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js";
+            g.defer = true;
+            g.async = true;
+            s.parentNode.insertBefore(g, s);
+
+            g.onload = function () {
+                vapiInstance = window.vapiSDK.run({
+                    apiKey: apiKey, // mandatory
+                    assistant: assistant, // mandatory
+                    config: buttonConfig, // optional
+                });
+            };
+        })(document, "script");
+    </script>
+</body>
+</html>
