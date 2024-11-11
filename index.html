@@ -3,23 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Embedded Content</title>
+    <title>Vapi AI Chat</title>
     <style>
-        /* Fullscreen iframe styling */
-        body, html {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            height: 100%;
-        }
-        iframe {
-            width: 100vw;
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             height: 100vh;
-            border: none;
+            margin: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1 {
+            color: #1f3a93; /* Dark Blue Color */
+        }
+        .timer {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.2em;
+            color: #333;
+        }
+        .chat-container {
+            width: 80%;
+            max-width: 600px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
         }
     </style>
+    <script>
+        var timeRemaining = 15 * 60; // 15 minutes in seconds
+
+        // Function to update the countdown timer every second
+        function updateTimer() {
+            var minutes = Math.floor(timeRemaining / 60);
+            var seconds = timeRemaining % 60;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+
+            document.getElementById('timer').textContent = minutes + ":" + seconds;
+            timeRemaining--;
+
+            if (timeRemaining < 0) {
+                // Close the window when time runs out
+                window.close();
+            }
+        }
+
+        // Function to start the timer and update it every second
+        function startTimer() {
+            setInterval(updateTimer, 1000);
+        }
+
+        window.onload = function() {
+            startTimer(); // Start the countdown timer on page load
+            startVapi(); // Automatically start Vapi AI chat on page load
+        };
+
+        // Function to start Vapi AI chat
+        function startVapi() {
+            var vapiInstance = null;
+            const assistant = "ddc98ac2-4e76-40b7-94f6-4568d8574226"; // Substitute with your assistant ID
+            const apiKey = "ca4376a0-87d1-444e-ad3f-d056d3e30c1d"; // Substitute with your Public key from Vapi Dashboard.
+            const buttonConfig = {}; // Modify this as required
+
+            (function (d, t) {
+                var g = document.createElement(t),
+                s = d.getElementsByTagName(t)[0];
+                g.src = "https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js";
+                g.defer = true;
+                g.async = true;
+                s.parentNode.insertBefore(g, s);
+
+                g.onload = function () {
+                    vapiInstance = window.vapiSDK.run({
+                        apiKey: apiKey, // mandatory
+                        assistant: assistant, // mandatory
+                        config: buttonConfig, // optional
+                    });
+                };
+            })(document, "script");
+        }
+    </script>
 </head>
 <body>
-    <iframe src="https://morningyaya.github.io/Vapi-non-anthro/"></iframe>
+
+    <!-- Display the countdown timer in the top-right corner -->
+    <div class="timer">Time remaining: <span id="timer">15:00</span></div>
+
+    <div class="chat-container">
+        <h1>Welcome</h1>
+        <p>Your AI companion is ready to talk with you.</p>
+        <p>Click on the call button below to start.</p>
+        <div id="vapi-chat">
+            <!-- Vapi chat will be loaded here -->
+        </div>
+    </div>
+
 </body>
 </html>
